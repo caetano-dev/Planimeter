@@ -1,0 +1,99 @@
+body {
+    margin: 0;
+    background: rgb(49,67,230);
+    background: linear-gradient(180deg, rgba(49,67,230,1) 0%, rgba(0,212,255,1) 100%);
+}
+
+.no-script {
+    margin: 20px 0;
+}
+
+.no-script p {
+    width: 300px;
+    margin: 0 auto;
+    padding: 10px;
+    text-align: center;
+    border: 2px solid #B58F14;
+    font-weight: bold;
+    background-color: #F5BC02;
+}
+
+.canvas-main {
+    outline: 1px solid black;
+    background-color: white;
+    margin: 30px auto;
+    display: block;
+    background: url('./plane.png');
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: contain;
+}
+
+header {
+    padding-bottom: 2rem;
+    font-size: 22px;
+    background-color: #3143e6;
+}
+
+header h1 {
+    margin-top: 1rem ;
+    color: white;
+    margin-bottom: .5rem;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 3rem;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+    text-shadow: -3px 3px #4CAF50;
+}
+.result, #result{
+    color: white;
+}
+.panel {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    height: 40px;
+}
+
+#colorSelect, #sizeSelect, #buttons {
+    width: 33%;
+    margin: 0;
+    text-align: center;
+    float: left;
+    height: 40px;
+}
+
+button{
+  /* Base styles */
+  display: inline-block;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+
+  /* Cool styles */
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 3px;
+  box-shadow: 0 5px #245a25;
+  transition: all 0.3s ease;
+
+/* Hover and active states */
+}
+
+button:hover {
+    box-shadow: 0 3px #666;
+    transform: translateY(-2px);
+}
+
+button:active {
+    box-shadow: 0 1px #666;
+    transform: translateY(1px);
+}
