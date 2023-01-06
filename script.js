@@ -1,50 +1,40 @@
-var can = document.querySelector(".canvas-main");           // variable for the canvas
-var con = can.getContext('2d');                             // variable for the context
-var clearButton = document.querySelector('.clear');         // variable for the clear button
-var imageButton = document.querySelector('.image'); 
-var calculateAreaButton = document.querySelector('.area'); 
-var paint = false;                                          // a flag will be set true when left-button is held down; this will allow painting
-var mouseX, mouseY;                                         // variables to store mouse coordinates
-var coord = [];                                             // array to store all (x,y) coordinates
-var imageData = con.getImageData(0, 0, can.width, can.height);
-var resultTextArea = document.querySelector('#result');
-var coordinates = document.getElementById("coordinates");
-// When clear button is pressed, clear the canvas & reset the coord array back to an empty array
+const can = document.querySelector(".canvas-main");
+const con = can.getContext('2d');
+const clearButton = document.querySelector('.clear');
+const imageButton = document.querySelector('.image');
+const calculateAreaButton = document.querySelector('.area');
+let paint = false;
+let mouseX, mouseY;
+let coord = [];
+const imageData = con.getImageData(0, 0, can.width, can.height);
+const resultTextArea = document.querySelector('#result');
+const coordinates = document.getElementById("coordinates");
+
 clearButton.addEventListener('click', function() {
   con.clearRect(0, 0, con.canvas.width, con.canvas.height);
   coord = [];
-})
+});
 
-
-// addClick is a function that saves all (x,y) mouse coordinates into the coord array.
 function addClick(x, y, drag) {
-  coord.push({ X: x,                                     // else, color uses currentColor
-    Y: y, 
-    DRAG: drag, 
-  });
+  coord.push({ X: x, Y: y, DRAG: drag });
 }
 
-// redraw will clear the canvas and 
-// it will cycle through the coord array, drawing mini-lines between each pair of 
-// coordinates to represent what the user is drawing.
 function redraw() {
-  con.clearRect(0, 0, con.canvas.width, con.canvas.height);       // clear canvas
+  con.clearRect(0, 0, con.canvas.width, con.canvas.height);
 
-  for(var i=0; i < coord.length; i++) {                           // iterate through "coord" array
+  for(let i = 0; i < coord.length; i++) {
     con.beginPath();
 
-    if (coord[i].DRAG) {                                          // if DRAG is true, this means the current (x,y) isn't the start of a user-drawn line, 
-      con.moveTo(coord[i-1].X, coord[i-1].Y);                    // it's in the middle somewhere as part of that line.  
-    }                                                             // So the moveTo() method should start at the previous (x,y) in our array.
-    else {
-      con.moveTo(coord[i].X + 1, coord[i].Y + 1);                // else the current (x,y) is the start point for a user-drawn line.  
-    }                                                             // Then the moveTo() should go to a neighboring point, this will cause the start point to appear
-    // as a dot on our board.
-    con.lineTo(coord[i].X, coord[i].Y);                           // lineTo() should do to the current (x,y) in our array
-    con.closePath();              
-    con.lineWidth = 3;                               // use the thickness set to 3
-    con.strokeStyle = 'rgb(0%, 0%, 0%)';              // use the color set to black
-    con.stroke();                                                 // draw this mini-line
+    if (coord[i].DRAG) {
+      con.moveTo(coord[i - 1].X, coord[i - 1].Y);
+    } else {
+      con.moveTo(coord[i].X + 1, coord[i].Y + 1);
+    }
+    con.lineTo(coord[i].X, coord[i].Y);
+    con.closePath();
+    con.lineWidth = 3;
+    con.strokeStyle = 'rgb(0%, 0%, 0%)';
+    con.stroke();
   }
 }
 
@@ -60,46 +50,42 @@ function calculateArea(coord) {
   return Math.abs(area / 2);
 }
 
-// event handler for when the left mouse button is held down, the user is drawing
 can.addEventListener('mousedown', function(e) {
 
-  mouseX = e.pageX - this.offsetLeft;                              // record the coordinates
+  mouseX = e.pageX - this.offsetLeft;
   mouseY = e.pageY - this.offsetTop;
 
-  paint = true;                                                    // set paint flag as true, because we want to draw on the board
-  addClick(mouseX, mouseY, false);                                 // send coordinates to addClick().  False is for the DRAG boolean variable
-  redraw();                                                        // to denote this (x,y) is the first point of a line drawn by user.
+  paint = true;                     
+  addClick(mouseX, mouseY, false); 
+  redraw();                       
 });
 
-// event handler for when the user moves the mouse around
 can.addEventListener('mousemove', function(e) {
   mouseX = e.pageX - this.offsetLeft;         
   mouseY = e.pageY - this.offsetTop;
-  var cRect = can.getBoundingClientRect();        // Gets CSS pos, and width/height
-  var canvasX = Math.round(e.clientX - cRect.left);  // Subtract the 'left' of the canvas 
-  var canvasY = Math.round(e.clientY - cRect.top);   // from the X/Y positions to make  
+  const cRect = can.getBoundingClientRect();        
+  let canvasX = Math.round(e.clientX - cRect.left);
+  let canvasY = Math.round(e.clientY - cRect.top);
   canvasX = canvasX - 36
   canvasY = can.height - canvasY - 28
-  var x = event.clientX;
-  var y = event.clientY;
+  let x = event.clientX;
+  let y = event.clientY;
   coordinates.innerHTML = "(" + canvasX + "px, " + canvasY + "px)";
   coordinates.style.top = y-30 + "px";
   coordinates.style.left = x+40 + "px";
 
-  if (paint) {                                                      // record coordinates only if the paint flag is true, which is set true 
-    addClick(mouseX, mouseY, true);                                 // when the left mouse button is held down.  Here DRAG is true, to tell 
-    redraw();                                                       // the function that this (x,y) is part of the line rather than the start of it
+  if (paint) {              
+    addClick(mouseX, mouseY, true);
+    redraw();
   }
 });
 
-// event handler for when user lets go of the mouse button
 can.addEventListener('mouseup', function(e) {
-  paint = false;                                                    // set paint to false, we don't want to record these (x,y) coordinates
+  paint = false;                            
 });
 
-// event handler for when user moves mouse out of bounds of canvas
-can.addEventListener('mouseleave', function(e) {                    
-  paint = false;                                                    // set paint to false, we don't want to record these (x,y) coordinates
+can.addEventListener('mouseleave', function(e) {
+  paint = false;
 });
 
 calculateAreaButton.addEventListener("click", function(){
