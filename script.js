@@ -1,14 +1,12 @@
+const calculateAreaButton = document.querySelector('.area');
+const coordinates = document.querySelector('#coordinates');
+const resultTextArea = document.querySelector('#result');
+const clearButton = document.querySelector('.clear');
 const can = document.querySelector(".canvas-main");
 const con = can.getContext('2d');
-const clearButton = document.querySelector('.clear');
-const imageButton = document.querySelector('.image');
-const calculateAreaButton = document.querySelector('.area');
-let paint = false;
 let mouseX, mouseY;
+let paint = false;
 let coord = [];
-const imageData = con.getImageData(0, 0, can.width, can.height);
-const resultTextArea = document.querySelector('#result');
-const coordinates = document.getElementById("coordinates");
 
 clearButton.addEventListener('click', function() {
   con.clearRect(0, 0, con.canvas.width, con.canvas.height);
@@ -21,10 +19,8 @@ function addClick(x, y, drag) {
 
 function redraw() {
   con.clearRect(0, 0, con.canvas.width, con.canvas.height);
-
   for(let i = 0; i < coord.length; i++) {
     con.beginPath();
-
     if (coord[i].DRAG) {
       con.moveTo(coord[i - 1].X, coord[i - 1].Y);
     } else {
@@ -51,10 +47,8 @@ function calculateArea(coord) {
 }
 
 can.addEventListener('mousedown', function(e) {
-
   mouseX = e.pageX - this.offsetLeft;
   mouseY = e.pageY - this.offsetTop;
-
   paint = true;                     
   addClick(mouseX, mouseY, false); 
   redraw();                       
@@ -80,17 +74,14 @@ can.addEventListener('mousemove', function(e) {
   }
 });
 
-can.addEventListener('mouseup', function(e) {
+can.addEventListener('mouseup' || 'mouseleave', function(e) {
   paint = false;                            
 });
 
-can.addEventListener('mouseleave', function(e) {
-  paint = false;
-});
-
 calculateAreaButton.addEventListener("click", function(){
-  resultText = `Valor da área: ${calculateArea(coord)/2500} cm²`
-  resultTextArea.innerText = resultText
+  const areaOfBackgroundSquare = 2500;
+  resultText = `Valor da área: ${calculateArea(coord)/areaOfBackgroundSquare} cm²`;
+  resultTextArea.innerText = resultText;
 })
 
 function drawSquare(x, y, sideLength, drag, con) {
