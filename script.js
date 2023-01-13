@@ -30,34 +30,31 @@ function redraw(e) {
 
   // draw a new rect from the start position 
   // to the current mouse position
-  con.beginPath();
   con.lineWidth = 1;
   con.strokeStyle = 'red';
   con.moveTo(startPoint.x, startPoint.y);
-  con.lineTo(mx, my);
+  //con.lineTo(mx, my); //shows the lines from the first click until the end
 
   for(let i = 0; i < coord.length; i++) {
-    con.beginPath();
-    if (coord[i].DRAG) {
-      con.moveTo(coord[i - 1].X, coord[i - 1].Y);
-    } else {
-      con.moveTo(coord[i].X + 1, coord[i].Y + 1);
-    }
-    con.lineTo(coord[i].X, coord[i].Y);
-    con.closePath();
+    //if (coord[i].DRAG) {
+      //con.moveTo(coord[i - 1].X, coord[i - 1].Y); //commenting this allows the shape to be filled.
+    //} else {
+      //con.moveTo(coord[i].X + 1, coord[i].Y + 1);
+    //}
+    con.lineTo(coord[i].X, coord[i].Y); //mouse path
     con.stroke();
-    con.fill();
+    //con.fill();
   }
 }
 
 can.addEventListener('mousedown', function(e) {
+  con.beginPath();
   con.clearRect(0, 0, con.canvas.width, con.canvas.height);
   startPoint = {
     x: e.clientX - this.offsetLeft,
     y: e.clientY - this.offsetTop
   }
   addClick(startPoint.x, startPoint.y, false); 
-  con.beginPath();
   con.moveTo(e.clientX, e.clientY);
   paint = true;                     
 });
@@ -80,11 +77,11 @@ can.addEventListener('mousemove', function(e) {
 
   if (paint) {              
     addClick(mouse.x, mouse.y, true);
-    redraw(e);
   }
 });
 
 can.addEventListener('mouseup' || 'mouseleave', function(e) {
+    redraw(e);
   paint = false;                            
   con.lineTo(startPoint.x, startPoint.y);
   con.closePath();
