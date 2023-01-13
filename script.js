@@ -28,28 +28,37 @@ function redraw(e) {
   mx = e.offsetX;
   my = e.offsetY;
 
-  // draw a new rect from the start position 
-  // to the current mouse position
   con.lineWidth = 1;
   con.strokeStyle = 'red';
+  con.moveTo(startPoint.x, startPoint.y);
+
+  for(let i = 0; i < coord.length; i++) {
+    con.lineTo(coord[i].X, coord[i].Y); //mouse path
+    con.stroke();
+  }
+}
+
+function mousePath(e) {
+  con.strokeStyle = 'green';
   con.moveTo(startPoint.x, startPoint.y);
   //con.lineTo(mx, my); //shows the lines from the first click until the end
 
   for(let i = 0; i < coord.length; i++) {
-    //if (coord[i].DRAG) {
-      //con.moveTo(coord[i - 1].X, coord[i - 1].Y); //commenting this allows the shape to be filled.
-    //} else {
-      //con.moveTo(coord[i].X + 1, coord[i].Y + 1);
-    //}
-    con.lineTo(coord[i].X, coord[i].Y); //mouse path
+    con.beginPath();
+    if (coord[i].DRAG) {
+      con.moveTo(coord[i - 1].X, coord[i - 1].Y);
+    } else {
+      con.moveTo(coord[i].X + 1, coord[i].Y + 1);
+    }
+    con.lineTo(coord[i].X, coord[i].Y);
+    con.closePath();
     con.stroke();
-    //con.fill();
+    con.fill();
   }
 }
 
 can.addEventListener('mousedown', function(e) {
   con.beginPath();
-  con.clearRect(0, 0, con.canvas.width, con.canvas.height);
   startPoint = {
     x: e.clientX - this.offsetLeft,
     y: e.clientY - this.offsetTop
@@ -76,12 +85,14 @@ can.addEventListener('mousemove', function(e) {
   showCoordinates(x, y, canvasCoordinates.x, canvasCoordinates.y);
 
   if (paint) {              
+    mousePath(e);
     addClick(mouse.x, mouse.y, true);
   }
 });
 
 can.addEventListener('mouseup' || 'mouseleave', function(e) {
-    redraw(e);
+  con.clearRect(0, 0, con.canvas.width, con.canvas.height);
+  redraw(e);
   paint = false;                            
   con.lineTo(startPoint.x, startPoint.y);
   con.closePath();
