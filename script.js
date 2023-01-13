@@ -5,9 +5,9 @@ const resultTextArea = document.querySelector('#result');
 const clearButton = document.querySelector('.clear');
 const can = document.querySelector(".canvas-main");
 const con = can.getContext('2d');
-let mouseX, mouseY;
-let paint = false;
 let coord = [];
+let paint = false;
+let startPoint 
 
 clearButton.addEventListener('click', function() {
   con.clearRect(0, 0, con.canvas.width, con.canvas.height);
@@ -24,9 +24,6 @@ const showCoordinates = (x, y, canvasX, canvasY) => {
   coordinates.style.left = x+50 + "px";
 }
 
-let startPoint 
-let lastPoint 
-
 function redraw(e) {
   mx = e.offsetX;
   my = e.offsetY;
@@ -34,21 +31,10 @@ function redraw(e) {
   // draw a new rect from the start position 
   // to the current mouse position
   con.beginPath();
-  con.lineWidth = 8;
-  con.lineJoin = con.lineCap = 'round';
-  con.setLineDash([0, 0]);
-  con.globalAlpha = 1.0;
-
-
+  con.lineWidth = 1;
+  con.strokeStyle = 'red';
   con.moveTo(startPoint.x, startPoint.y);
   con.lineTo(mx, my);
-
-  con.closePath();
-  con.strokeStyle = 'red';
-  con.fill();
-  con.stroke();
-  con.fillStyle = 'rgba(25,50,75,0.5)';
-  con.fill();
 
   for(let i = 0; i < coord.length; i++) {
     con.beginPath();
@@ -59,43 +45,41 @@ function redraw(e) {
     }
     con.lineTo(coord[i].X, coord[i].Y);
     con.closePath();
-    con.lineWidth = 8;
-    con.strokeStyle = 'rgb(0%, 0%, 0%)';
-    con.fill();
     con.stroke();
+    con.fill();
   }
 }
 
 can.addEventListener('mousedown', function(e) {
   con.clearRect(0, 0, con.canvas.width, con.canvas.height);
-  startX = e.clientX - this.offsetLeft;
-  startY = e.clientY - this.offsetTop;
-  addClick(startX, startY, false); 
+  startPoint = {
+    x: e.clientX - this.offsetLeft,
+    y: e.clientY - this.offsetTop
+  }
+  addClick(startPoint.x, startPoint.y, false); 
   con.beginPath();
   con.moveTo(e.clientX, e.clientY);
   paint = true;                     
-  lastPoint = {
-    x: e.offsetX,
-    y: e.offsetY
-  };
-  startPoint = lastPoint;
-  redraw(e);                       
 });
 
 can.addEventListener('mousemove', function(e) {
-  mouseX = e.pageX - this.offsetLeft;         
-  mouseY = e.pageY - this.offsetTop;
+  let mouse = {
+    x: e.pageX - this.offsetLeft,
+    y: e.pageY - this.offsetTop
+  }
+
   const cRect = can.getBoundingClientRect();        
-  let canvasX = Math.round(e.clientX - cRect.left);
-  let canvasY = Math.round(e.clientY - cRect.top);
-  canvasX = canvasX - 36
-  canvasY = can.height - canvasY - 28
+  let canvasCoordinates = {
+    x: Math.round(e.clientX - cRect.left)-36,
+    y: can.height - Math.round(e.clientY - cRect.top) - 28
+  }
+
   let x = e.clientX;
   let y = e.clientY;
-  showCoordinates(x, y, canvasX, canvasY);
+  showCoordinates(x, y, canvasCoordinates.x, canvasCoordinates.y);
 
   if (paint) {              
-    addClick(mouseX, mouseY, true);
+    addClick(mouse.x, mouse.y, true);
     redraw(e);
   }
 });
@@ -123,6 +107,5 @@ can.addEventListener('mouseup' || 'mouseleave', function(e) {
   let theta = (pixelsInside / totalPixels) * 2 * Math.PI;
   let area = (r * theta * Math.PI) / 360 * d;
   console.log("Area of the closed shape:", area);
-
 });
 
