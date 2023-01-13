@@ -1,3 +1,5 @@
+//a 50px by 50px square returns 0.14123458188532148 of area when r = 1000 and d = 1
+
 const calculateAreaButton = document.querySelector('.area');
 const newAreaDiv = document.querySelector('.newArea');
 const coordinates = document.querySelector('#coordinates');
@@ -14,7 +16,7 @@ clearButton.addEventListener('click', function() {
   coord = [];
 });
 
-function addClick(x, y, drag) {
+const addClick = (x, y, drag) => {
   coord.push({ X: x, Y: y, DRAG: drag });
 }
 
@@ -24,7 +26,7 @@ const showCoordinates = (x, y, canvasX, canvasY) => {
   coordinates.style.left = x+50 + "px";
 }
 
-function redraw(e) {
+const redraw = (e) => {
   mx = e.offsetX;
   my = e.offsetY;
 
@@ -38,11 +40,9 @@ function redraw(e) {
   }
 }
 
-function mousePath(e) {
+const mousePath = (e) => {
   con.strokeStyle = 'green';
   con.moveTo(startPoint.x, startPoint.y);
-  //con.lineTo(mx, my); //shows the lines from the first click until the end
-
   for(let i = 0; i < coord.length; i++) {
     con.beginPath();
     if (coord[i].DRAG) {
@@ -103,8 +103,8 @@ can.addEventListener('mouseup' || 'mouseleave', function(e) {
   let data = imageData.data;
   let totalPixels = data.length / 4;
   let pixelsInside = 0;
-  let r = 1000;
-  let d = 1;
+  const r = 1000;
+  const d = 1;
 
   for (let i = 0; i < totalPixels; i++) {
     let isInside = data[i * 4 + 3] > 0; // check if the pixel is inside the closed shape
