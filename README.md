@@ -3,7 +3,7 @@
 A seguir, segue o código fonte utilizado para a criação do planímetro, acompanhado de explicações acerca de seu funcionamento.
 
 
-### Declaração de variáveis.
+## Declaração de variáveis.
 
 Começamos o código declarando nossas variáveis que serão utilizadas globalmente, como botões, containers e outros elementos do HTML.
 
@@ -19,7 +19,7 @@ let paint = false;
 let coord = [];
 ```
 
-### Event listeners
+## Event listeners
 
 Event listeners são usados para determinar o que o código deve fazer quando uma ação é realizada pelo usuário, como clicks, arrastar o mouse ou até mesmo soltar o botão.
 
@@ -81,7 +81,7 @@ calculateAreaButton.addEventListener("click", function(){
 })
 ```
 
-### Funções
+## Funções
 
 Funções permitem escrever o código uma vez e usá-lo várias vezes, o que torna o código mais modular e fácil de manter.
 
