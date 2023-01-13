@@ -1,7 +1,5 @@
 //a 50px by 50px square returns 0.14123458188532148 of area when r = 1000 and d = 1
 
-const calculateAreaButton = document.querySelector('.area');
-const newAreaDiv = document.querySelector('.newArea');
 const coordinates = document.querySelector('#coordinates');
 const resultTextArea = document.querySelector('#result');
 const clearButton = document.querySelector('.clear');
@@ -114,6 +112,6 @@ can.addEventListener('mouseup' || 'mouseleave', function(e) {
   }
   let theta = (pixelsInside / totalPixels) * 2 * Math.PI;
   let area = (r * theta * Math.PI) / 360 * d;
-  console.log("Area of the closed shape:", area);
+  resultTextArea.innerText = area+" px²";
 });
 
