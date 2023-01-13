@@ -110,8 +110,10 @@ can.addEventListener('mouseup' || 'mouseleave', function(e) {
       pixelsInside++;
     }
   }
+  // por algum motivo, quando a gente mede um 2x2, ele dá 3.8 como área
   let theta = (pixelsInside / totalPixels) * 2 * Math.PI;
   let area = (r * theta * Math.PI) / 360 * d;
-  resultTextArea.innerText = area+" px²";
+  const squareUnit = 0.14123458188532148
+  resultTextArea.innerText = (area/squareUnit).toFixed(2) + " cm²";
 });
 
