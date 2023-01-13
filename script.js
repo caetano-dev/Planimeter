@@ -29,7 +29,7 @@ const redraw = (e) => {
   my = e.offsetY;
 
   con.lineWidth = 1;
-  con.strokeStyle = 'red';
+  //con.strokeStyle = 'red';
   con.moveTo(startPoint.x, startPoint.y);
 
   for(let i = 0; i < coord.length; i++) {
@@ -39,7 +39,7 @@ const redraw = (e) => {
 }
 
 const mousePath = (e) => {
-  con.strokeStyle = 'green';
+  //con.strokeStyle = 'green';
   con.moveTo(startPoint.x, startPoint.y);
   for(let i = 0; i < coord.length; i++) {
     con.beginPath();
@@ -113,7 +113,7 @@ can.addEventListener('mouseup' || 'mouseleave', function(e) {
   // por algum motivo, quando a gente mede um 2x2, ele dá 3.8 como área
   let theta = (pixelsInside / totalPixels) * 2 * Math.PI;
   let area = (r * theta * Math.PI) / 360 * d;
-  const squareUnit = 0.14123458188532148
-  resultTextArea.innerText = (area/squareUnit).toFixed(2) + " cm²";
+  const squareUnit = 0.14123458188532148; // 1cm² = 50px²
+  resultTextArea.innerText = area/squareUnit + " cm²";
 });
 
