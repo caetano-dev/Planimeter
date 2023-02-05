@@ -1,0 +1,3 @@
+- a área está sendo medida em px², então o resultado vai depender do tamanho da tela de cada um. Podemos fazer uma função para calcular quantos px cada quadrado do papel de parede tem e a partir disso converter para cm².
+- criar um braço pro planímetro (talvez)
+- criar um painel que mostra as variáveis em tempo real e mostra como a conta está sendo feita.

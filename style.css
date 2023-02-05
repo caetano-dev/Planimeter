@@ -4,38 +4,9 @@ html {
   background: linear-gradient(180deg, rgba(49,67,230,1) 0%, rgba(0,212,255,1) 100%);
   height: 100%;
 }
-a, a:visited{
-  text-decoration: none;
-  color: white;
-  outline: none;
-}
-
-main{
-  padding-top: 1rem;
-  text-align: center;
-  font-family: sans-serif;
-  font-size: 20px;
-}
-
-.no-script {
-  margin: 20px 0;
-}
-
-.no-script p {
-  width: 300px;
-  margin: 0 auto;
-  padding: 10px;
-  text-align: center;
-  border: 2px solid #B58F14;
-  font-weight: bold;
-  background-color: #F5BC02;
-}
-
 .canvas-main {
-  outline: 1px solid black;
-  background-color: white;
-  margin: 30px auto;
-  display: block;
+  margin: 1rem auto;
+  display: flex;
   background: url('./plane.png');
   background-repeat: no-repeat;
   background-position: center; 
@@ -44,14 +15,13 @@ main{
 
 header {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
+  margin-bottom: -2rem;
+  margin-top: -2rem;
 }
-
 header h1 {
-  margin-top: .5rem ;
   color: white;
-  margin-bottom: -1rem;
   text-align: center;
   font-family: sans-serif;
   font-size: 3rem;
@@ -62,43 +32,6 @@ header h1 {
 .result, #result{
   color: white;
 }
-
-#colorSelect, #sizeSelect, #buttons {
-  width: 33%;
-  margin: 0;
-  text-align: center;
-  float: left;
-  height: 40px;
-}
-
-button{
-  display: inline-block;
-  border: none;
-  padding: 10px 20px;
-  margin: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  text-align: center;
-  text-decoration: none;
-  white-space: nowrap;
-  vertical-align: middle;
-  background-color: #4CAF50;
-  color: white;
-  border-radius: 3px;
-  box-shadow: 0 5px #245a25;
-  transition: all 0.3s ease;
-}
-
-button:hover {
-  box-shadow: 0 3px #666;
-  transform: translateY(-2px);
-}
-
-button:active {
-  box-shadow: 0 1px #666;
-  transform: translateY(1px);
-} 
 #coordinates {
   position: absolute;
   top: 0;
@@ -111,3 +44,42 @@ button:active {
   text-align: center;
   font-size: 1rem;
 }
+button{
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 3px;
+  box-shadow: 0 5px #245a25;
+  transition: all 0.3s ease;
+}
+button:hover {
+  box-shadow: 0 3px #666;
+  transform: translateY(-2px);
+}
+button:active {
+  box-shadow: 0 1px #666;
+  transform: translateY(1px);
+} 
+.no-script {
+  margin: 20px 0;
+}
+.no-script p {
+  width: 300px;
+  margin: 0 auto;
+  padding: 10px;
+  text-align: center;
+  border: 2px solid #B58F14;
+  font-weight: bold;
+  background-color: #F5BC02;
+}
+a, a:visited{
+  text-decoration: none;
+  color: white;
+  outline: none;
+}
+
