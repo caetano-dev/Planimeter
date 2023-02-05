@@ -56,7 +56,7 @@ can.addEventListener("mousedown", function (e) {
   con.moveTo(e.clientX, e.clientY);
   paint = true;
 });
-can.addEventListener("mousemove", function (e) {
+  can.addEventListener("mousemove", function (e) {
   let mouse = {
     x: e.pageX - this.offsetLeft,
     y: e.pageY - this.offsetTop,
