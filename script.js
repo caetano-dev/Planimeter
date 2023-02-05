@@ -1,38 +1,38 @@
-const coordinates = document.querySelector('#coordinates');
-const resultTextArea = document.querySelector('#result');
-const clearButton = document.querySelector('.clear');
+const coordinates = document.querySelector("#coordinates");
+const resultTextArea = document.querySelector("#result");
+const clearButton = document.querySelector(".clear");
 const can = document.querySelector(".canvas-main");
-const con = can.getContext('2d');
+const con = can.getContext("2d");
 let coord = [];
 let paint = false;
 
-clearButton.addEventListener('click', function() {
+clearButton.addEventListener("click", function () {
   con.clearRect(0, 0, con.canvas.width, con.canvas.height);
   coord = [];
 });
 
 const addClick = (x, y, drag) => {
   coord.push({ X: x, Y: y, DRAG: drag });
-}
+};
 
 const showCoordinates = (x, y, canvasX, canvasY) => {
   coordinates.innerHTML = "(" + canvasX + "px, " + canvasY + "px)";
-  coordinates.style.top = y-50 + "px";
-  coordinates.style.left = x+50 + "px";
-}
+  coordinates.style.top = y - 50 + "px";
+  coordinates.style.left = x + 50 + "px";
+};
 
 const redraw = (e) => {
   mx = e.offsetX;
   my = e.offsetY;
   con.lineWidth = 1;
-  for(let i = 0; i < coord.length; i++) {
+  for (let i = 0; i < coord.length; i++) {
     con.lineTo(coord[i].X, coord[i].Y); //mouse path
     con.stroke();
   }
-}
+};
 
 const mousePath = (e) => {
-  for(let i = 0; i < coord.length; i++) {
+  for (let i = 0; i < coord.length; i++) {
     con.beginPath();
     if (coord[i].DRAG) {
       con.moveTo(coord[i - 1].X, coord[i - 1].Y);
@@ -44,17 +44,17 @@ const mousePath = (e) => {
     con.stroke();
     con.fill();
   }
-}
+};
 
-can.addEventListener('mousedown', function(e) {
+can.addEventListener("mousedown", function (e) {
   con.beginPath();
   startPoint = {
     x: e.clientX - this.offsetLeft,
-    y: e.clientY - this.offsetTop
-  }
-  addClick(startPoint.x, startPoint.y, false); 
+    y: e.clientY - this.offsetTop,
+  };
+  addClick(startPoint.x, startPoint.y, false);
   con.moveTo(e.clientX, e.clientY);
-  paint = true;                     
+  paint = true;
 });
 can.addEventListener("mousemove", function (e) {
   let mouse = {
@@ -92,7 +92,6 @@ can.addEventListener("mouseup" || "mouseleave", function (e) {
   con.closePath();
   con.stroke();
   con.fill();
-  area = (-calculateArea(coord)/2500);
-  resultTextArea.innerText = area
+  area = calculateArea(coord) / 2500;
+  resultTextArea.innerText = area;
 });
-
