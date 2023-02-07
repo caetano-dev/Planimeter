@@ -1,8 +1,13 @@
+const calculateAreaButton = document.querySelector(".calculate");
+const randomButton = document.querySelector(".randomButton");
 const coordinates = document.querySelector("#coordinates");
+const triangleButton = document.querySelector(".triangleButton");
 const resultTextArea = document.querySelector("#result");
+const squareButton = document.querySelector(".squareButton");
 const clearButton = document.querySelector(".clear");
 const can = document.querySelector(".canvas-main");
 const con = can.getContext("2d");
+
 let coord = [];
 let paint = false;
 
@@ -46,6 +51,36 @@ const mousePath = (e) => {
   }
 };
 
+function calculateArea(coord) {
+  let sum = 0;
+  for (let i = 0; i < coord.length - 1; i++) {
+    sum += ((coord[i + 1].X - coord[i].X) * (coord[i + 1].Y + coord[i].Y)) / 2;
+  }
+  return sum;
+}
+
+function drawSquare(x, y, sideLength, drag, con) {
+  coord.push({ X: x, Y: y, DRAG: drag });
+  coord.push({ X: x, Y: y + sideLength, DRAG: drag });
+  coord.push({ X: x + sideLength, Y: y + sideLength, DRAG: drag });
+  coord.push({ X: x + sideLength, Y: y, DRAG: drag });
+  coord.push({ X: x, Y: y, DRAG: drag });
+  con.fillRect(x, y, sideLength, sideLength);
+}
+
+function drawTriangle(x1, y1, x2, y2, x3, y3, drag, con) {
+  coord.push({ X: x1, Y: y1, DRAG: drag });
+  coord.push({ X: x2, Y: y2, DRAG: drag });
+  coord.push({ X: x3, Y: y3, DRAG: drag });
+  coord.push({ X: x1, Y: y1, DRAG: drag });
+  con.beginPath();
+  con.moveTo(x1, y1);
+  con.lineTo(x2, y2);
+  con.lineTo(x3, y3);
+  con.fill();
+}
+
+
 can.addEventListener("mousedown", function (e) {
   con.beginPath();
   startPoint = {
@@ -56,7 +91,8 @@ can.addEventListener("mousedown", function (e) {
   con.moveTo(e.clientX, e.clientY);
   paint = true;
 });
-  can.addEventListener("mousemove", function (e) {
+
+can.addEventListener("mousemove", function (e) {
   let mouse = {
     x: e.pageX - this.offsetLeft,
     y: e.pageY - this.offsetTop,
@@ -77,14 +113,6 @@ can.addEventListener("mousedown", function (e) {
   }
 });
 
-function calculateArea(coord) {
-  let sum = 0;
-  for (let i = 0; i < coord.length - 1; i++) {
-    sum += ((coord[i + 1].X - coord[i].X) * (coord[i + 1].Y + coord[i].Y)) / 2;
-  }
-  return sum;
-}
-
 can.addEventListener("mouseup" || "mouseleave", function (e) {
   con.clearRect(0, 0, con.canvas.width, con.canvas.height);
   redraw(e);
@@ -92,6 +120,17 @@ can.addEventListener("mouseup" || "mouseleave", function (e) {
   con.closePath();
   con.stroke();
   con.fill();
+});
+
+calculateAreaButton.addEventListener("click", function (e) {
   area = calculateArea(coord) / 2500;
-  resultTextArea.innerText = area;
+  resultTextArea.innerText = area+" cm²";
+});
+
+squareButton.addEventListener("click", function (e) {
+  drawSquare(634, 322, 100, false, con);
+});
+
+triangleButton.addEventListener("click", function (e) {
+  drawTriangle(934, 392, 450, 100, 540, 490, false, con);
 });

@@ -5,6 +5,12 @@ html {
   height: 100%;
 }
 
+.figures{
+  width: 100;
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .canvas-main {
   margin: 1rem auto;
   display: flex;
