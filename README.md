@@ -15,6 +15,75 @@ const con = can.getContext("2d");
 let coord = [];
 let paint = false;
 ```
+## Funções
+
+Funções permitem escrever o código uma vez e usá-lo várias vezes, o que torna o código mais modular e fácil de manter.
+
+As funções, assim como na matemática, normalmente aceitam uma ou mais entradas (também chamadas de argumentos ou parâmetros) e podem retornar uma saída (também chamada de valor de retorno). A entrada é passada para a função quando ela é chamada, e a função executa sua tarefa usando a entrada. A saída é o resultado da tarefa da função.
+
+Em Javascript, podemos denotar uma função por `function nomeDaFunção(parâmetros)` ou `const nomeDaFunção = (parâmetros)`.
+
+A função `addClick(x,y,drag)` tem a tarefa de adicionar todas as coordenadas do mouse em um vetor, assim como o valor `DRAG`, que pode ser verdadeiro ou falso.
+
+```js
+const addClick = (x, y, drag) => {
+  coord.push({ X: x, Y: y, DRAG: drag });
+};
+```
+
+`redraw()` limpará a tela e fará um loop pelo array de coordenadas, desenhando mini-linhas entre cada par de coordenadas para representar o que o usuário está desenhando.
+
+```js
+const redraw = (e) => {
+  mx = e.offsetX;
+  my = e.offsetY;
+  con.lineWidth = 1;
+  for (let i = 0; i < coord.length; i++) {
+    con.lineTo(coord[i].X, coord[i].Y);
+    con.stroke();
+  }
+};
+```
+A função `calculateArea()` é uma implementação da Fórmula de Gauss. A fórmula funciona tratando a área como uma sequência de vetores, que pode ser representada como segmentos de linha conectando os vértices.
+
+- O primeiro passo é inicializar uma soma variável a zero. Esta variável será usada para acumular a soma das áreas dos vetores individuais.
+
+- Em seguida, a função faz loops sobre todos os vértices do parâmetro de coordenação, que é um conjunto de objetos representando as coordenadas X e Y de cada vértice.
+
+- Para cada iteração, a função calcula a área de um vetor multiplicando a diferença entre as coordenadas X dos dois vértices com a soma de suas coordenadas Y e dividindo o resultado por 2. A fórmula para a área de um vetor representada por dois pontos (x1, y1) e (x2, y2) é ((x2 - x1) * (y2 + y1)) / 2.
+
+Finalmente, a função retorna o valor da soma, que é a soma das áreas de todos os vetores individuais e representa a área total da figura.
+
+```js
+function calculateArea(coord) {
+  let sum = 0;
+  for (let i = 0; i < coord.length - 1; i++) {
+    sum += ((coord[i + 1].X - coord[i].X) * (coord[i + 1].Y + coord[i].Y)) / 2;
+  }
+  return sum;
+}
+```
+
+Abaixo, são declaradas as funções que possuem o papel de denhar figuras que já estão prontas. Usamos elas para verificar que os cálculos estão corretos.
+
+```js
+function drawShape(points, drawFn, drag, con) {
+  coord.push(...points.map(p => ({ X: p.x, Y: p.y, DRAG: drag })));
+  drawFn(points, con);
+}
+
+function drawSquare(points, con) {
+  con.fillRect(points[0].x, points[0].y, points[2].x - points[0].x, points[2].y - points[0].y);
+}
+
+function drawTriangle(points, con) {
+  con.beginPath();
+  con.moveTo(points[0].x, points[0].y);
+  con.lineTo(points[1].x, points[1].y);
+  con.lineTo(points[2].x, points[2].y);
+  con.fill();
+}
+```
 
 ## Event listeners
 
@@ -68,7 +137,7 @@ can.addEventListener("mousedown", function (e) {
 
 ```
 
-Aqui, quando o usuário acaba de desenhar a área e tira o mouse da tela, calculamos a sua área. Vamos ver como `calculateArea()` funciona em mais detalhes no tópico de funções.
+Aqui, aguardamos o usuário acabar de desenhar a área e tirar o mouse da tela para preenchermos a figura.
 
 ```js
 can.addEventListener("mouseup" || "mouseleave", function (e) {
@@ -78,56 +147,42 @@ can.addEventListener("mouseup" || "mouseleave", function (e) {
   con.closePath();
   con.stroke();
   con.fill();
-  area = calculateArea(coord) / 2500;
-  resultTextArea.innerText = area;
 });
 ```
-
-## Funções
-
-Funções permitem escrever o código uma vez e usá-lo várias vezes, o que torna o código mais modular e fácil de manter.
-
-As funções, assim como na matemática, normalmente aceitam uma ou mais entradas (também chamadas de argumentos ou parâmetros) e podem retornar uma saída (também chamada de valor de retorno). A entrada é passada para a função quando ela é chamada, e a função executa sua tarefa usando a entrada. A saída é o resultado da tarefa da função.
-
-Em Javascript, podemos denotar uma função por `function nomeDaFunção(parâmetros)` ou `const nomeDaFunção = (parâmetros)`.
-
-A função `addClick(x,y,drag)` tem a tarefa de adicionar todas as coordenadas do mouse em um vetor, assim como o valor `DRAG`, que pode ser verdadeiro ou falso.
+Quando o botão de calcular a área é chamado, utilizamos a função`calculateArea()` e mostramos seu resultado na tela. 
 
 ```js
-const addClick = (x, y, drag) => {
-  coord.push({ X: x, Y: y, DRAG: drag });
-};
+calculateAreaButton.addEventListener("click", function (e) {
+  area = calculateArea(coord) / 2500;
+  resultTextArea.innerText = area+" cm²";
+});
 ```
-
-`redraw()` limpará a tela e fará um loop pelo array de coordenadas, desenhando mini-linhas entre cada par de coordenadas para representar o que o usuário está desenhando.
-
 ```js
-const redraw = (e) => {
-  mx = e.offsetX;
-  my = e.offsetY;
-  con.lineWidth = 1;
-  for (let i = 0; i < coord.length; i++) {
-    con.lineTo(coord[i].X, coord[i].Y);
-    con.stroke();
-  }
-};
-```
-A função `calculateArea()` é uma implementação da Fórmula de Gauss. A fórmula funciona tratando a área como uma sequência de vetores, que pode ser representada como segmentos de linha conectando os vértices.
+squareButton.addEventListener("click", function (e) {
+  drawShape(
+    [
+      { x: 634, y: 322 },
+      { x: 634, y: 422 },
+      { x: 734, y: 422 },
+      { x: 734, y: 322 },
+      { x: 634, y: 322 },
+    ],
+    drawSquare,
+    false,
+    con
+  );
+});
 
-- O primeiro passo é inicializar uma soma variável a zero. Esta variável será usada para acumular a soma das áreas dos vetores individuais.
-
-- Em seguida, a função faz loops sobre todos os vértices do parâmetro de coordenação, que é um conjunto de objetos representando as coordenadas X e Y de cada vértice.
-
-- Para cada iteração, a função calcula a área de um vetor multiplicando a diferença entre as coordenadas X dos dois vértices com a soma de suas coordenadas Y e dividindo o resultado por 2. A fórmula para a área de um vetor representada por dois pontos (x1, y1) e (x2, y2) é ((x2 - x1) * (y2 + y1)) / 2.
-
-Finalmente, a função retorna o valor da soma, que é a soma das áreas de todos os vetores individuais e representa a área total da figura.
-
-```js
-function calculateArea(coord) {
-  let sum = 0;
-  for (let i = 0; i < coord.length - 1; i++) {
-    sum += ((coord[i + 1].X - coord[i].X) * (coord[i + 1].Y + coord[i].Y)) / 2;
-  }
-  return sum;
-}
+triangleButton.addEventListener("click", function (e) {
+  drawShape(
+    [
+      { x: 934, y: 392 },
+      { x: 450, y: 100 },
+      { x: 540, y: 490 },
+    ],
+    drawTriangle,
+    true,
+    con
+  );
+});
 ```
