@@ -99,9 +99,9 @@ clearButton.addEventListener("click", function () {
 
 ```
 
-Aqui, adicionamos `event listeners` no canvas. Quando o usuário clica no mesmo, pegamos as coordenadas do mouse e adicionamos na tela seu desenho. Usamos as variáveis `canvas.x` e `canvas.y` para mapear os pixels e mostra-los ao usuário.
+Aqui, adicionamos `event listeners` no canvas. Quando o usuário clica no mesmo, pegamos as coordenadas do mouse e adicionamos na tela seu desenho. Usamos as variáveis `canvas.x` e `canvas.y` para mapear os pixels e mostrá-los ao usuário.
 
-Enquanto o mouse se encontra na tela com o botão pressinado, o usuário pode pintar.
+Enquanto o mouse se encontra na tela com o botão pressionado, o usuário pode pintar.
 
 ```js
 can.addEventListener("mousedown", function (e) {
@@ -157,6 +157,9 @@ calculateAreaButton.addEventListener("click", function (e) {
   resultTextArea.innerText = area+" cm²";
 });
 ```
+
+Botões utilizados para chamar as funções que desenham o triângulo e o quadrado são acionados quando o usuário clica nos mesmos.
+
 ```js
 squareButton.addEventListener("click", function (e) {
   drawShape(
