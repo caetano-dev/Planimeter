@@ -59,27 +59,22 @@ function calculateArea(coord) {
   return sum;
 }
 
-function drawSquare(x, y, sideLength, drag, con) {
-  coord.push({ X: x, Y: y, DRAG: drag });
-  coord.push({ X: x, Y: y + sideLength, DRAG: drag });
-  coord.push({ X: x + sideLength, Y: y + sideLength, DRAG: drag });
-  coord.push({ X: x + sideLength, Y: y, DRAG: drag });
-  coord.push({ X: x, Y: y, DRAG: drag });
-  con.fillRect(x, y, sideLength, sideLength);
+function drawShape(points, drawFn, drag, con) {
+  coord.push(...points.map(p => ({ X: p.x, Y: p.y, DRAG: drag })));
+  drawFn(points, con);
 }
 
-function drawTriangle(x1, y1, x2, y2, x3, y3, drag, con) {
-  coord.push({ X: x1, Y: y1, DRAG: drag });
-  coord.push({ X: x2, Y: y2, DRAG: drag });
-  coord.push({ X: x3, Y: y3, DRAG: drag });
-  coord.push({ X: x1, Y: y1, DRAG: drag });
+function drawSquare(points, con) {
+  con.fillRect(points[0].x, points[0].y, points[2].x - points[0].x, points[2].y - points[0].y);
+}
+
+function drawTriangle(points, con) {
   con.beginPath();
-  con.moveTo(x1, y1);
-  con.lineTo(x2, y2);
-  con.lineTo(x3, y3);
+  con.moveTo(points[0].x, points[0].y);
+  con.lineTo(points[1].x, points[1].y);
+  con.lineTo(points[2].x, points[2].y);
   con.fill();
 }
-
 
 can.addEventListener("mousedown", function (e) {
   con.beginPath();
@@ -128,9 +123,29 @@ calculateAreaButton.addEventListener("click", function (e) {
 });
 
 squareButton.addEventListener("click", function (e) {
-  drawSquare(634, 322, 100, false, con);
+  drawShape(
+    [
+      { x: 634, y: 322 },
+      { x: 634, y: 422 },
+      { x: 734, y: 422 },
+      { x: 734, y: 322 },
+      { x: 634, y: 322 },
+    ],
+    drawSquare,
+    false,
+    con
+  );
 });
 
 triangleButton.addEventListener("click", function (e) {
-  drawTriangle(934, 392, 450, 100, 540, 490, false, con);
+  drawShape(
+    [
+      { x: 934, y: 392 },
+      { x: 450, y: 100 },
+      { x: 540, y: 490 },
+    ],
+    drawTriangle,
+    true,
+    con
+  );
 });
