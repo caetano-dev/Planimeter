@@ -38,6 +38,10 @@ header h1 {
   text-shadow: -3px 3px #4CAF50;
 }
 
+.clear{
+  background-color: red;
+}
+
 .result,
 #result {
   color: white;
