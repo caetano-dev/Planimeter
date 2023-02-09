@@ -1,9 +1,9 @@
+const triangleButton = document.querySelector(".triangleButton");
 const calculateAreaButton = document.querySelector(".calculate");
 const randomButton = document.querySelector(".randomButton");
-const coordinates = document.querySelector("#coordinates");
-const triangleButton = document.querySelector(".triangleButton");
-const resultTextArea = document.querySelector("#result");
 const squareButton = document.querySelector(".squareButton");
+const coordinates = document.querySelector("#coordinates");
+const resultTextArea = document.querySelector("#result");
 const clearButton = document.querySelector(".clear");
 const can = document.querySelector(".canvas-main");
 const con = can.getContext("2d");
@@ -140,9 +140,9 @@ squareButton.addEventListener("click", function (e) {
 triangleButton.addEventListener("click", function (e) {
   drawShape(
     [
-      { x: 934, y: 392 },
       { x: 450, y: 100 },
       { x: 540, y: 490 },
+      { x: 934, y: 392 },
     ],
     drawTriangle,
     true,
