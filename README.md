@@ -1,10 +1,10 @@
-# Planímetro
+# Planimeter
 
-Este é o código para a implementação de um planímetro em JavaScript, que permite ao usuário desenhar uma área no canvas e calcular sua área em centímetros quadrados.
+This is the code for a JavaScript implementation of a planimeter, which allows the user to draw an area on canvas and calculate its area in square centimeters.
 
-## Variáveis
+## Variables
 
-As seguintes variáveis são declaradas e utilizadas globalmente. Se tratam de botões, containers, vetores e outros elementos do HTML.
+The following variables are declared and used globally. These are buttons, containers, vectors, and other HTML elements.
 
 ```js
 const coordinates = document.querySelector("#coordinates"); 
@@ -15,23 +15,23 @@ const con = can.getContext("2d");
 let coord = [];
 let paint = false;
 ```
-## Funções
+## Functions
 
-Funções permitem escrever o código uma vez e usá-lo várias vezes, o que torna o código mais modular e fácil de manter.
+Functions allow you to write code once and use it many times, which makes the code more modular and easier to maintain.
 
-As funções, assim como na matemática, normalmente aceitam uma ou mais entradas (também chamadas de argumentos ou parâmetros) e podem retornar uma saída (também chamada de valor de retorno). A entrada é passada para a função quando ela é chamada, e a função executa sua tarefa usando a entrada. A saída é o resultado da tarefa da função.
+Functions, as in mathematics, usually take one or more inputs (also called arguments or parameters) and can return an output (also called a return value). The input is passed to the function when it is called, and the function performs its task using the input. The output is the result of the function's task.
 
-Em Javascript, podemos denotar uma função por `function nomeDaFunção(parâmetros)` ou `const nomeDaFunção = (parâmetros)`.
+In JavaScript, we can denote a function by `function nameFunction(parameters)` or `const nameFunction = (parameters)`.
 
-A função `addClick(x,y,drag)` tem a tarefa de adicionar todas as coordenadas do mouse em um vetor, assim como o valor `DRAG`, que pode ser verdadeiro ou falso.
+The `addClick(x,y,drag)` function has the task of adding all the mouse coordinates into a vector, as well as the value `DRAG`, which can be true or false.
 
 ```js
 const addClick = (x, y, drag) => {
-  coord.push({ X: x, Y: y, DRAG: drag });
+  coord.push({ X: x, Y: y, DRAG: drag })
 };
 ```
 
-`redraw()` limpará a tela e fará um loop pelo array de coordenadas, desenhando mini-linhas entre cada par de coordenadas para representar o que o usuário está desenhando.
+``redraw()` will clear the screen and loop through the array of coordinates, drawing mini-lines between each pair of coordinates to represent what the user is drawing.
 
 ```js
 const redraw = (e) => {
@@ -44,15 +44,15 @@ const redraw = (e) => {
   }
 };
 ```
-A função `calculateArea()` é uma implementação da Fórmula de Gauss. A fórmula funciona tratando a área como uma sequência de vetores, que pode ser representada como segmentos de linha conectando os vértices.
+The `calculateArea()` function is an implementation of the Gauss Formula. The formula works by treating the area as a sequence of vectors, which can be represented as line segments connecting vertices.
 
-- O primeiro passo é inicializar uma soma variável a zero. Esta variável será usada para acumular a soma das áreas dos vetores individuais.
+- The first step is to initialize a variable sum to zero. This variable will be used to accumulate the sum of the areas of the individual vectors.
 
-- Em seguida, a função faz loops sobre todos os vértices do parâmetro de coordenação, que é um conjunto de objetos representando as coordenadas X e Y de cada vértice.
+- Next, the function loops over all vertices of the coordination parameter, which is a set of objects representing the X and Y coordinates of each vertex.
 
-- Para cada iteração, a função calcula a área de um vetor multiplicando a diferença entre as coordenadas X dos dois vértices com a soma de suas coordenadas Y e dividindo o resultado por 2. A fórmula para a área de um vetor representada por dois pontos (x1, y1) e (x2, y2) é ((x2 - x1) * (y2 + y1)) / 2.
+- For each iteration, the function calculates the area of a vector by multiplying the difference between the X coordinates of the two vertices with the sum of their Y coordinates and dividing the result by 2. The formula for the area of a vector represented by two points (x1, y1) and (x2, y2) is ((x2 - x1) * (y2 + y1)) / 2.
 
-Finalmente, a função retorna o valor da soma, que é a soma das áreas de todos os vetores individuais e representa a área total da figura.
+Finally, the function returns the sum value, which is the sum of the areas of all the individual vectors and represents the total area of the figure.
 
 ```js
 function calculateArea(coord) {
@@ -64,7 +64,7 @@ function calculateArea(coord) {
 }
 ```
 
-Abaixo, são declaradas as funções que possuem o papel de denhar figuras que já estão prontas. Usamos elas para verificar que os cálculos estão corretos.
+Below are declared functions that have the role of drawing figures that are already finished. We use them to verify that the calculations are correct.
 
 ```js
 function drawShape(points, drawFn, drag, con) {
@@ -87,9 +87,9 @@ function drawTriangle(points, con) {
 
 ## Event listeners
 
-Event listeners são usados para determinar o que o código deve fazer quando uma ação é realizada pelo usuário, como clicks, arrastar o mouse ou até mesmo soltar o botão.
+Event listeners are used to determine what the code should do when an action is performed by the user, such as clicking, dragging the mouse or even releasing the button.
 
-Adicionamos um `event listener` no botão de limpar a tela. Quando este é acionado, removemos todas as coordenadas do nosso vetor e limpamos o quadro.
+We add an `event listener` to the clear screen button. When this is triggered, we remove all coordinates from our array and clear the frame.
 
 ```js
 clearButton.addEventListener("click", function () {
@@ -98,10 +98,9 @@ clearButton.addEventListener("click", function () {
 });
 
 ```
+Here, we add `event listeners` to the canvas. When the user clicks on it, we take the mouse coordinates and add their drawing to the canvas. We use the variables `canvas.x` and `canvas.y` to map the pixels and display them to the user.
 
-Aqui, adicionamos `event listeners` no canvas. Quando o usuário clica no mesmo, pegamos as coordenadas do mouse e adicionamos na tela seu desenho. Usamos as variáveis `canvas.x` e `canvas.y` para mapear os pixels e mostrá-los ao usuário.
-
-Enquanto o mouse se encontra na tela com o botão pressionado, o usuário pode pintar.
+While the mouse is on the screen with the button pressed, the user can paint.
 
 ```js
 can.addEventListener("mousedown", function (e) {
@@ -137,7 +136,8 @@ can.addEventListener("mousedown", function (e) {
 
 ```
 
-Aqui, aguardamos o usuário acabar de desenhar a área e tirar o mouse da tela para preenchermos a figura.
+Here, we wait for the user to finish drawing the area and take the mouse off the screen so we can fill the shape.
+
 
 ```js
 can.addEventListener("mouseup" || "mouseleave", function (e) {
@@ -149,7 +149,7 @@ can.addEventListener("mouseup" || "mouseleave", function (e) {
   con.fill();
 });
 ```
-Quando o botão de calcular a área é chamado, utilizamos a função`calculateArea()` e mostramos seu resultado na tela. 
+When the calculate area button is called, we use the`calculateArea()` function and display its result on the screen.  
 
 ```js
 calculateAreaButton.addEventListener("click", function (e) {
@@ -158,7 +158,7 @@ calculateAreaButton.addEventListener("click", function (e) {
 });
 ```
 
-Botões utilizados para chamar as funções que desenham o triângulo e o quadrado são acionados quando o usuário clica nos mesmos.
+Buttons used to call the functions that draw the triangle and square are triggered when the user clicks on them.
 
 ```js
 squareButton.addEventListener("click", function (e) {
